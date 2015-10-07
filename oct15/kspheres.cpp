@@ -101,9 +101,9 @@ int main () {
 		for (int j=1;j<=i;j++) {
 			ele = ele + pow(-1,j-1)*((e[i-j]*p[j])%MAXV);
 			ele %= MAXV;
-			if (ele < 0) ele += MAXV;
 		}
-		ele /= i;
+		if (ele < 0) ele += MAXV;
+		ele/=i;
 		e.push_back(ele);
 	}
 

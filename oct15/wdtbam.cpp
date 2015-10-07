@@ -3,7 +3,8 @@
 using namespace std;
 
 int main() {
-	int t,n,correct,ans,cash;
+	int t,n,correct;
+	long long ans,cash;
 	cin>>t;
 	while (t--) {
 		cin>>n;
@@ -23,7 +24,9 @@ int main() {
 		ans = -1;
 		for (int i=0;i<=correct;i++) {
 			cin>>cash;
+			//if (correct == n && i == 0) continue;
 			ans = maxf(ans, cash);
+			if (correct == n && i==correct) ans = cash;
 		}
 		for (int i=correct+1;i<=n;i++) {
 			cin>>cash;
