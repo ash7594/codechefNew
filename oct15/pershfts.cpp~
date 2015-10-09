@@ -256,19 +256,19 @@ long long parity(int arr[], long long n) {
 	return a%2;
 }
 
-//long long parity2(long long arr[], long long n) {
-//	long long a = 0;
-//	long long d = 0;
-//	for (long long i=1;i<=n;i++) {
-//		d = arr[i-1] - i;
-//		if (d > 0) {
-//			a += d;
-//		}
-//	}
-//	return a%2;
-//}
+long long parity2(long long arr[], long long n) {
+	long long a = 0;
+	long long d = 0;
+	for (long long i=1;i<=n;i++) {
+		d = arr[i-1] - i;
+		if (d > 0) {
+			a += d;
+		}
+	}
+	return a%2;
+}
 
-long long position(int qlow[], long long n) {
+long long position(int q[], int qlow[], long long n) {
 	long long a = 0;
 	long long temp;
 	//vector<int> v;
@@ -301,11 +301,11 @@ int main () {
 		int *qlow = (int *)malloc(sizeof(int)*n);
 
 		for (long long i=0;i<n;i++) {
-			p[i] = read_int();
+			cin>>p[i];
 		}
 
 		for (long long i=0;i<n;i++) {
-			q[i] = read_int();
+			cin>>q[i];
 		}
 
 		if (n == k) {
@@ -316,36 +316,35 @@ int main () {
 
 		for (long long i=0;i<n;i++) {
 			if (p[(i+p1)%n] != q[(i+q1)%n]) {
-				printf("-1\n");
+				cout<<"-1\n";
 				goto end;
 			}
 		}
-		printf("%d\n",q[0]);
+		cout<<q[0]<<endl;
 		goto end;
 		}
 
-		//constructLowerArray(p, plow, n);
+		constructLowerArray(p, plow, n);
 		constructLowerArray(q, qlow, n);
 		if (k%2 == 0) {
-			a = position(qlow,n);
-			printf("%lld\n",(a+1)%MAXV);
+			a = position(q,qlow,n);
+			cout<<(a+1)%MAXV<<endl;
 			goto end;
 		} else {
-			constructLowerArray(p, plow, n);
 			p1 = parity(plow,n);
 			q1 = parity(qlow,n);
 			if (p1 != q1) {
-				printf("-1\n");
+				cout<<"-1\n";
 				goto end;
 			}
-			a = position(qlow,n);
+			a = position(q,qlow,n);
 			if (q[n-2] > q[n-1]) { //even
 				a--;
 				if (a<0) a += MAXV;
 			}
 
 			a = (a*modinv)%MAXV;
-			printf("%lld\n",(a+1)%MAXV);
+			cout<<(a+1)%MAXV<<endl;
 		}
 
 		end:;
