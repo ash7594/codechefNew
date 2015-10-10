@@ -1,0 +1,75 @@
+#include<bits/stdc++.h>
+#define MAXV 1000000007
+using namespace std;
+
+long long table[1001][1001];
+long long table2[1001][1001];
+
+int gcd(int a, int b) {
+	if (a < b) {
+		swap(a,b);
+	}
+	if (b == 0) return a;
+	if (b == 1) return 1;
+	return gcd(b,a%b);
+}
+
+vector<int> modInverse(1001, 0);
+
+int lcm(int a, int b, int m) {
+	int prod = (a*b)%m;
+	return (prod*modInverse[gcd(a,b)])%m;
+}
+
+void init(int m) {
+	for (int i=1;i<=1000;i++) {
+		table[i][1] = 1%m;
+	}
+	table[2][2] = 1%m;
+	for (int i=3;i<=1000;i++) {
+		for (int j=2;j<i;j++) {
+			table[i][j] = (table[i-1][j-1] + table[i-1][j])%m;
+		}
+		table[i][i] = table[i-1][i-1];
+	}
+	
+	for (int i=1;i<=1000;i++) {
+		table2[i][1] = table[i][1];
+	}
+	table2[2][2] = table[2][2];
+	for (int i=3;i<=1000;i++) {
+		for (int j=2;j<=i;j++) {
+			table2[i][j] = lcm(table[i][j],table2[i][j-1],m);
+		}
+	}
+}
+
+int main() {
+	int t,n,k,a,b,m;
+	cin>>t;
+	cin>>n>>k;
+	cin>>a>>b>>m;
+    	modInverse[1] = 1;
+    	for (int i = 2; i <= 1000; i++) {
+        	modInverse[i] = (-(m / i) * modInverse[m % i]) % m + m;
+    	}
+
+	int c[t-1],d[t-1];
+	for (int i=0;i<t-1;i++) {
+		cin>>c[i];
+	}
+	for (int i=0;i<t-1;i++) {
+	   	cin>>d[i];
+    }
+
+	init(m);
+	int ans = 0;
+	int count = 0;
+	while (t--) {
+		ans = (table2[n][k]*n)%m;
+		cout<<ans<<endl;
+		n = 1 + (a*ans + c[count])%m;
+		k = 1 + (b*ans + d[count++])%n;
+	}
+	return 0;
+}
