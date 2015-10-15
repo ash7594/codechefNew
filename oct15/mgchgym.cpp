@@ -53,7 +53,7 @@ bool check(iter l, iter r, int W) {
 			w.insert(it,make_pair(w1[i],1));
 	}
 	//cout<<w.size()<<endl;
-	vector<vector<bool> > v(w.size(),v1);
+	vector<bitset<10001> > v(w.size());
 
 	REP(i,0,w.size()) {
 		v[i][0] = true;
@@ -73,7 +73,7 @@ bool check(iter l, iter r, int W) {
 		REP(j,0,W+1) {
 			v[i][j] = v[i-1][j];
 			if (j>=w[i].first) {
-				for (int k=1;k<=w[i].second && j>=k*w[i].first;k++) {
+				for (int k=1;k<=w[i].second && j>=k*w[i].first;k*=2) {
 					v[i][j] = v[i][j] || v[i-1][j-k*w[i].first];
 				}
 			}
