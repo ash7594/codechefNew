@@ -2,6 +2,9 @@
 #define gc getchar_unlocked
 #define REP(a,b,c) for(int a=b;a<c;a++)
 #define maxf(a,b) ((a>b)?a:b)
+#define minf(a,b) ((a<b)?a:b)
+#define minf3(a,b,c) ((minf(a,b)<c)?minf(a,b):c)
+#define maxf3(a,b,c) ((maxf(a,b)>c)?maxf(a,b):c)
 #define nl cout<<endl
 using namespace std;
 
