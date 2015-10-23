@@ -20,14 +20,24 @@ int read() {
 
 string a,b;
 
+int dp[100][100];
+
 int sol(int i,int j) {
 	if (i == -1) return j+1;
 	if (j == -1) return i+1;
-	if (a[i] == b[j]) return sol(i-1,j-1);
-	return 1 + minf3(sol(i,j-1),sol(i-1,j),sol(i-1,j-1));
+
+	if (dp[i][j] != -1) return dp[i][j];
+
+	if (a[i] == b[j]) {
+		dp[i][j] = sol(i-1,j-1);
+	} else {
+		dp[i][j] = 1 + minf3(sol(i,j-1),sol(i-1,j),sol(i-1,j-1));
+	}
+	return dp[i][j];
 }
 
 int main() {
+	fill(&dp[0][0],&dp[99][99],-1);
 	cin>>a>>b;
 	
 	cout<<sol(a.size()-1,b.size()-1);
