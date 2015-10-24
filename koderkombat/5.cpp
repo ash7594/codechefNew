@@ -20,5 +20,33 @@ int read() {
 }
 
 int main() {
-	
+	int t = read();
+	int i;
+	char s[2000];
+	while(t--) {
+		scanf("%s",s);
+		vector<int> h(26,0);
+		for(i=0;s[i]!='\0';i++) {
+			h[s[i]-'a']++;
+		}
+
+		sort(h.begin(),h.end(),[](const int &a, const int &b){return a>b;});
+		while (h.back() == 0) {
+			h.pop_back();
+		}
+
+		long long ans = INT_MAX;
+		REP(m,1,h.size()+1) {
+			if (i%m==0) {
+				long long te = i;
+				REP(n,0,m) {
+					te -= h[n];
+				}
+				//printf("%lld\n",te);
+				ans = min(ans,te);
+			}
+		}
+		printf("%lld\n",ans);	
+	}
+	return 0;
 }
