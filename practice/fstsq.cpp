@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 #define gc getchar_unlocked
-#define REP(a,b,c) for(long long a=b;a<c;a++)
+#define REP(a,b,c) for(unsigned long long a=b;a<c;a++)
 #define maxf(a,b) ((a>b)?a:b)
 #define minf(a,b) ((a<b)?a:b)
 #define minf3(a,b,c) ((minf(a,b)<c)?minf(a,b):c)
@@ -9,10 +9,10 @@
 #define MAXV 1000000007
 using namespace std;
 
-long long read() {
+unsigned long long read() {
       char c = gc();
         while(c<'0' || c>'9') c = gc();
-          long long ret = 0;
+          unsigned long long ret = 0;
           while(c>='0' && c<='9') {
                   ret = 10 * ret + c - 48;
                       c = gc();
@@ -20,19 +20,19 @@ long long read() {
             return ret;
 }
 
-vector<long long> p(2000000);
+vector<unsigned long long> p(2000000);
 void init() {
 	p[0] = 1;
-	for (long long i=1;i<2000000;i++)
+	for (unsigned long long i=1;i<2000000;i++)
 		p[i] = (23*p[i-1])%MAXV;
 }
 
 int main() {
 	init();
 
-	long long t = read();
-	long long n,d,sq,sc,orem,temp,ans,siz,t2;
-	vector<long long> s(2000000);
+	unsigned long long t = read();
+	unsigned long long n,d,sq,sc,orem,temp,ans,siz,t2;
+	vector<unsigned long long> s(2000000);
 	while(t--) {
 		//fill(s.begin(),s.end(),0);
 		n = read();
@@ -40,14 +40,14 @@ int main() {
 		sq = d*d;
 		sc = 0;
 		orem = 0;
-		for (long long i=0;i<n;i++) {
+		for (unsigned long long i=0;i<n;i++) {
 			sc += sq;
 			temp = sc + orem;
 			s[i] = (temp%10);
 			temp /= 10;
 			orem = temp;
 		}
-		for (long long i=0;i<n-1;i++) {
+		for (unsigned long long i=0;i<n-1;i++) {
 			sc -= sq;
 			temp = sc + orem;
             s[i+n] = (temp%10);
@@ -59,12 +59,12 @@ int main() {
 			siz = 2*n-1;
 		} else siz = 2*n-2;
 		//reverse(s.begin(),s.end());
-		//copy(s.begin(),s.end(),ostream_iterator<long long>(cout));
+		//copy(s.begin(),s.end(),ostream_iterator<unsigned long long>(cout));
 		//nl;
 		ans = 0;
 		//siz = s.size()-1;
 		REP(i,0,siz+1) {
-			t2 = (s[i]*p[siz-i])%MAXV;
+			t2 = (s[i]*p[siz-i]);
 			ans = (ans+t2)%MAXV;
 		}
 		printf("%lld\n",ans);
