@@ -32,36 +32,38 @@ int main() {
 
 	long long t = read();
 	long long n,d,sq,sc,orem,temp,ans,siz,t2;
+	vector<long long> s(2000000);
 	while(t--) {
+		//fill(s.begin(),s.end(),0);
 		n = read();
 		d = read();
-		vector<long long> s(2*n);
 		sq = d*d;
 		sc = 0;
 		orem = 0;
 		for (long long i=0;i<n;i++) {
 			sc += sq;
 			temp = sc + orem;
-			s[i] += (temp%10);
+			s[i] = (temp%10);
 			temp /= 10;
 			orem = temp;
 		}
 		for (long long i=0;i<n-1;i++) {
 			sc -= sq;
 			temp = sc + orem;
-            s[i+n] += (temp%10);
+            s[i+n] = (temp%10);
             temp /= 10;
             orem = temp;
 		}
 		if (orem != 0) {
 			s[2*n-1] = orem;
-		} else s.pop_back();
+			siz = 2*n-1;
+		} else siz = 2*n-2;
 		//reverse(s.begin(),s.end());
 		//copy(s.begin(),s.end(),ostream_iterator<long long>(cout));
 		//nl;
 		ans = 0;
-		siz = s.size()-1;
-		REP(i,0,s.size()) {
+		//siz = s.size()-1;
+		REP(i,0,siz+1) {
 			t2 = (s[i]*p[siz-i])%MAXV;
 			ans = (ans+t2)%MAXV;
 		}
