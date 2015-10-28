@@ -3,7 +3,7 @@ using namespace std;
 
 int main () {
 	srand(time(NULL));
-	int n = 5;
+	int n = 100;
 	cout<<n<<endl;
 	for (int i=0;i<n;i++) {
 		cout<<rand()%100<<" ";

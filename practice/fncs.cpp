@@ -28,6 +28,9 @@ struct node {
 	node *rc;
 };
 
+node p[1000000];
+int globalarr;
+
 ull segment_tree(vector<ull> a,ull l,ull r,node *t) {
 	t->l = l;
 	t->r = r;
@@ -36,8 +39,8 @@ ull segment_tree(vector<ull> a,ull l,ull r,node *t) {
 		t->rc = NULL;
 		return t->sum = a[l];
 	}
-	node *lc = new node;
-	node *rc = new node;
+	node *lc = &p[globalarr++];
+	node *rc = &p[globalarr++];
 
 	t->lc = lc;
 	t->rc = rc;
@@ -65,7 +68,15 @@ ull segment_tree_get_sum(node *t,ull l,ull r) {
 	}
 }
 
+void lot(node *t) {
+	if (t == NULL) return;
+	lot(t->lc);
+	cout<<t->l<<" "<<t->r<<" "<<t->sum<<endl;
+	lot(t->rc);
+}
+
 int main() {
+	globalarr = 0;
 	ull n = read();
 	ull m1,m2;
 	vector<ull> a(n);
@@ -87,16 +98,30 @@ int main() {
 	REP(i,1,n) {
 		asum[i] = a[i] + asum[i-1];
 	}
+	
+	//
+//	copy(asum.begin(),asum.end(),ostream_iterator<ull>(cout," "));
+//	nl;
+	//
 
-	node *root = new node;
+	node *root = &p[globalarr++];
 	ull totsum = segment_tree(a,0,n-1,root);
 
+	//
+//	lot(root);
+	//
+	
 	vector<ull> fval(n);
 	REP(i,0,n) {
 		if (f[i].first == 0) fval[i] = asum[f[i].second];
 		else fval[i] = asum[f[i].second] - asum[f[i].first-1];
 	}
 
+	//
+//	copy(fval.begin(),fval.end(),ostream_iterator<ull>(cout," "));
+//	nl;
+	//
+	
 	ull buckets = ceil(sqrt(n));
 	vector<ull> sqrtdec(buckets,0);
 	
@@ -105,6 +130,11 @@ int main() {
 			sqrtdec[i] += fval[j];
 		}
 	}
+
+	//
+//	copy(sqrtdec.begin(),sqrtdec.end(),ostream_iterator<ull>(cout," "));
+//	nl;
+	//
 
 	vector<vector<ull> > freq(buckets,vector<ull>(n+1,0));
 	for (ull i=0;i<buckets;i++) {
@@ -119,6 +149,14 @@ int main() {
 			freq[i][j] += freq[i][j-1];
 		}
 	}
+		
+	//
+//	nl;
+//	REP(i,0,buckets) {
+//		copy(freq[i].begin(),freq[i].end(),ostream_iterator<ull>(cout," "));
+//		nl;
+//	}
+	//
 
 	ull q = read();
 	ull type,b,c;
@@ -142,6 +180,15 @@ int main() {
 			c--;
 			ull sb = ceil(b*1.0/buckets);
 			ull eb = (c/buckets);
+
+			if (sb>=eb) {
+				for (int i=b;i<=c;i++) {
+					ans += segment_tree_get_sum(root,f[i].first,f[i].second);
+				}
+				printf("%lld\n",ans);
+				continue;
+			}
+
 			for (ull i=sb;i<eb;i++) {
 				ans += sqrtdec[i];
 			}
