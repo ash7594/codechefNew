@@ -131,6 +131,12 @@ int main() {
 		}
 	}
 
+	vector<ull> sqrtdecadd(buckets);
+	sqrtdecadd[0] = sqrtdec[0];
+	for (ull i=1;i<buckets;i++) {
+		sqrtdecadd[i] = sqrtdecadd[i-1] + sqrtdec[i];
+	}
+
 	//
 //	copy(sqrtdec.begin(),sqrtdec.end(),ostream_iterator<ull>(cout," "));
 //	nl;
@@ -174,6 +180,11 @@ int main() {
 			for (ull i=0;i<buckets;i++) {
 				sqrtdec[i] += freq[i][b]*(c - a[b]);
 			}
+
+			sqrtdecadd[0] = sqrtdec[0];
+			for (ull i=1;i<buckets;i++) {
+				sqrtdecadd[i] = sqrtdecadd[i-1] + sqrtdec[i];
+			}
 			a[b] = c;
 		} else {
 			b--;
@@ -181,24 +192,54 @@ int main() {
 			ull sb = ceil(b*1.0/buckets);
 			ull eb = (c/buckets);
 
-			if (sb>=eb) {
-				for (int i=b;i<=c;i++) {
-					ans += segment_tree_get_sum(root,f[i].first,f[i].second);
+			if (sb>eb) {
+				if ((c-b+1)>(buckets/2)) {
+					ans = sqrtdec[eb];
+					for (ull i=eb*buckets;i<b;i++) {
+						ans -= segment_tree_get_sum(root,f[i].first,f[i].second);
+					}
+					for (ull i=c+1;i<sb*buckets;i++) {
+						ans -= segment_tree_get_sum(root,f[i].first,f[i].second);
+					}
+				} else {
+					for (ull i=b;i<=c;i++) {
+						ans += segment_tree_get_sum(root,f[i].first,f[i].second);
+					}
 				}
 				printf("%lld\n",ans);
 				continue;
 			}
-
-			for (ull i=sb;i<eb;i++) {
-				ans += sqrtdec[i];
+//			for (ull i=sb;i<eb;i++) {
+//				ans += sqrtdec[i];
+//			}
+			
+			if (sb != eb) {
+				if (sb == 0) ans = sqrtdecadd[eb-1];
+				else ans = sqrtdecadd[eb-1] - sqrtdecadd[sb-1];
 			}
+
 			sb *= buckets;
 			eb *= buckets;
-			for (ull i=b;i<sb;i++) {
-				ans += segment_tree_get_sum(root,f[i].first,f[i].second);
+			if ((sb-b)<=(buckets/2)) {
+				for (ull i=b;i<sb;i++) {
+					ans += segment_tree_get_sum(root,f[i].first,f[i].second);
+				}
+			} else {
+				ans += sqrtdec[(sb/buckets)-1];
+				for (ull i=sb-buckets;i<b;i++) {
+					ans -= segment_tree_get_sum(root,f[i].first,f[i].second);
+				}
 			}
-			for (ull i=eb;i<=c;i++) { 
-				ans += segment_tree_get_sum(root,f[i].first,f[i].second);
+
+			if ((c-eb+1)<=(buckets/2)) {
+				for (ull i=eb;i<=c;i++) {
+					ans += segment_tree_get_sum(root,f[i].first,f[i].second);
+				}
+			} else {
+				ans += sqrtdec[eb/buckets];
+				for (ull i=c+1;i<(eb+buckets);i++) {
+					ans -= segment_tree_get_sum(root,f[i].first,f[i].second);
+				}
 			}
 			printf("%lld\n",ans);
 		}
