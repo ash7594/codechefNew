@@ -1,4 +1,5 @@
 #include<bits/stdc++.h>
+#include<ext/rope>
 #define gc getchar_unlocked
 #define REP(a,b,c) for(int a=b;a<c;a++)
 #define maxf(a,b) ((a>b)?a:b)
@@ -7,6 +8,7 @@
 #define maxf3(a,b,c) ((maxf(a,b)>c)?maxf(a,b):c)
 #define nl cout<<endl
 using namespace std;
+using namespace __gnu_cxx;
 
 int read() {
       char c = gc();
