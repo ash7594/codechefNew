@@ -21,6 +21,19 @@ int read() {
             return ret;
 }
 
+inline void write(ull x){
+
+         register char buffor[35];
+         register int i=0;
+         do{
+               buffor[i++]=(x%10)+'0';
+               x/=10;
+            } while(x);
+           i--;
+            while(i>=0) putchar_unlocked(buffor[i--]);
+            putchar_unlocked('\n');
+       }
+
 int main() {
 	
 }
