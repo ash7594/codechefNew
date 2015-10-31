@@ -20,6 +20,19 @@ ull read() {
             return ret;
 }
 
+inline void write(ull x){
+
+         register char buffor[35];
+         register int i=0;
+         do{
+               buffor[i++]=(x%10)+'0';
+               x/=10;
+            } while(x);
+           i--;
+            while(i>=0) putchar_unlocked(buffor[i--]);
+            putchar_unlocked('\n');
+       }
+
 struct node {
 	ull l;
 	ull r;
@@ -48,12 +61,12 @@ ull segment_tree(vector<ull> a,ull l,ull r,node *t) {
 	return t->sum = segment_tree(a,l,mid,lc) + segment_tree(a,mid+1,r,rc);
 }
 
-void update_segment_tree(node *t,ull ov,ull p,ull v) {
+void update_segment_tree(node *t,ull p,ull v) {
 	if (t == NULL) return;
 	if (p<t->l || p>t->r) return;
-	t->sum += (v - ov);
-	update_segment_tree(t->lc,ov,p,v);
-	update_segment_tree(t->rc,ov,p,v);
+	t->sum += v;
+	update_segment_tree(t->lc,p,v);
+	update_segment_tree(t->rc,p,v);
 }
 
 ull segment_tree_get_sum(node *t,ull l,ull r) {
@@ -175,10 +188,11 @@ int main() {
 
 		if (type == 1) {
 			b--;
-			update_segment_tree(root,a[b],b,c);
+			ull differ = c-a[b];
+			update_segment_tree(root,b,differ);
 			//update buckets
 			for (ull i=0;i<buckets;i++) {
-				sqrtdec[i] += freq[i][b]*(c - a[b]);
+				sqrtdec[i] += freq[i][b]*(differ);
 			}
 
 			sqrtdecadd[0] = sqrtdec[0];
@@ -206,7 +220,7 @@ int main() {
 						ans += segment_tree_get_sum(root,f[i].first,f[i].second);
 					}
 				}
-				printf("%lld\n",ans);
+				write(ans);
 				continue;
 			}
 //			for (ull i=sb;i<eb;i++) {
@@ -241,7 +255,7 @@ int main() {
 					ans -= segment_tree_get_sum(root,f[i].first,f[i].second);
 				}
 			}
-			printf("%lld\n",ans);
+			write(ans);
 		}
 	}
 	return 0;
