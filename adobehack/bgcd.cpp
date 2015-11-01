@@ -36,53 +36,42 @@ inline void write(ull x){
             putchar_unlocked('\n');
        }
 
-long long power(int a) {
-	if (a == 1) return 2;
-	if (a%2 == 1) {
-		return 2*power(a-1);
-	} else {
-		return power(a/2)*power(a/2);
-	}
-}
-
 int main() {
 	int n = read();
 	vector<int> a(n);
-	vector<long long> p(n+1);
+	vector<long long> p(1000001);
 	p[0] = 1;
-	REP(i,1,n+1) {
+	REP(i,1,1000001) {
 		p[i] = (2*p[i-1])%MOD;
 	}
 
-	vector<int> b(n+1,0);
+	vector<int> b(1000001,0);
+	vector<long long> gcd(1000001);
 
 	REP(i,0,n) {
 		a[i] = read();
+		b[a[i]]++;
 	}
 
-	long long ans,count,count2;
-	REP(i,0,n) {
-		count = 0;
-		count2 = 0;
-		if (b[a[i]] != 0) {
-			printf("%d ",b[a[i]]);
-			continue;
+	long long sum;
+	REP(i,1,1000001) {
+		sum = 0;
+		for (int j=i;j<=1000000;j+=i) {
+			sum += b[j];
 		}
-
-		REP(j,0,n) {
-			if (a[j]%a[i] == 0) count++;
-			if (a[j] == a[i]) count2++;
-		}
-		count--;
-		count2--;
-		
-		ans = p[count--];
-		REP(j,0,count2) {
-			ans = (ans + p[count--])%MOD;
-		}
-
-		b[a[i]] =  ans;
-		printf("%lld ",ans);
+		gcd[i] = p[sum] - 1;
 	}
+
+	REP(i,1,1000001) {
+		for (int j=2*i;j<=1000000;j+=i) {
+			gcd[i] -= gcd[j];
+			if (gcd[i] < 0) gcd[i] += MOD;
+		}
+	}
+
+	REP(i,0,a.size()) {
+		printf("%lld ",gcd[a[i]]);
+	}
+	nl;
 	return 0;
 }
