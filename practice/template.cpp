@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 #include<ext/rope>
 #define gc getchar_unlocked
+#define pc putchar_unlocked
 #define REP(a,b,c) for(int a=b;a<c;a++)
 #define maxf(a,b) ((a>b)?a:b)
 #define minf(a,b) ((a<b)?a:b)
@@ -21,7 +22,7 @@ int read() {
             return ret;
 }
 
-inline void write(ull x){
+inline void write(int x){
 
          register char buffor[35];
          register int i=0;
@@ -30,8 +31,8 @@ inline void write(ull x){
                x/=10;
             } while(x);
            i--;
-            while(i>=0) putchar_unlocked(buffor[i--]);
-            putchar_unlocked('\n');
+            while(i>=0) pc(buffor[i--]);
+            pc('\n');
        }
 
 int main() {
