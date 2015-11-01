@@ -39,14 +39,14 @@ inline void write(ull x){
 int main() {
 	int n = read();
 	vector<int> a(n);
-	vector<long long> p(1000001);
+	vector<long long> p(n+1);
 	p[0] = 1;
-	REP(i,1,1000001) {
+	REP(i,1,n+1) {
 		p[i] = (2*p[i-1])%MOD;
 	}
 
-	vector<int> b(1000001,0);
-	vector<long long> gcd(1000001);
+	vector<int> b(n+1,0);
+	vector<long long> gcd(n+1);
 
 	REP(i,0,n) {
 		a[i] = read();
@@ -54,16 +54,16 @@ int main() {
 	}
 
 	long long sum;
-	REP(i,1,1000001) {
+	REP(i,1,n+1) {
 		sum = 0;
-		for (int j=i;j<=1000000;j+=i) {
+		for (int j=i;j<=n;j+=i) {
 			sum += b[j];
 		}
 		gcd[i] = p[sum] - 1;
 	}
 
-	REP(i,1,1000001) {
-		for (int j=2*i;j<=1000000;j+=i) {
+	for(int i=n;i>=1;i--) {
+		for (int j=2*i;j<=n;j+=i) {
 			gcd[i] -= gcd[j];
 			if (gcd[i] < 0) gcd[i] += MOD;
 		}
