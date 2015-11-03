@@ -48,6 +48,15 @@ int main() {
 		q = read();
 		char s[n];
 		scanf("%s",s);
+
+		if (n==1) {
+			while(q--) {
+				l = read();
+				r = read();
+				printf("1\n");
+			}
+			continue;
+		}
 		
 		no1=no0=0;
 		int m = 0;
@@ -68,8 +77,13 @@ int main() {
 		}
 		vector<pair<int,int> > a;
 		m-=2;
-		if (cause == -1)
-			a.push_back(make_pair(0,n-1));
+		if (cause == -1) {
+			int z = 0;
+			while (z<n) {
+				a.push_back(make_pair(z++,n-1));
+			}
+			goto h;
+		}
 		else
 			a.push_back(make_pair(0,m));
 
@@ -103,7 +117,8 @@ int main() {
 			}
 		}
 
-		vector<long long> subseq(a.size()),ss(a.size()),common(a.size()-1),scommon(a.size()-1);
+		h:;
+		vector<long long> subseq(a.size()),ss(a.size()),common(a.size()-1,0),scommon(a.size()-1);
 //		REP(i,0,a.size()) {
 //			cout<<"("<<a[i].first<<","<<a[i].second<<")";
 //			nl;
@@ -154,19 +169,26 @@ int main() {
 
 			if (iter2 == a.begin()) {
 				ans = (r-l+1)*(r-l+2)/2;
-				write(ans);
+				printf("%lld\n",ans);
 				continue;
 			}
 			iter2--;
 
 			if (iter1->second >= r) {
 				ans = (r-l+1)*(r-l+2)/2;
-				write(ans);
+				printf("%lld\n",ans);
 				continue;
 			}
 
-			if ((iter1-a.begin()-1) < 0) ans = ss[iter2-a.begin()] - scommon[iter2-a.begin()-1];
-			else ans = ss[iter2-a.begin()] - ss[iter1-a.begin()-1] - (scommon[iter2-a.begin()-1] - scommon[iter1-a.begin()-1]);
+			if ((iter1-a.begin()-1) < 0) {
+				if (iter2-a.begin()-1 >= 0)
+					ans = ss[iter2-a.begin()] - scommon[iter2-a.begin()-1];
+				else
+					ans = ss[iter2-a.begin()];
+			} else {
+				if (iter2-a.begin()-1 >= 0) ans = ss[iter2-a.begin()] - ss[iter1-a.begin()-1] - (scommon[iter2-a.begin()-1] - scommon[iter1-a.begin()-1]);
+				else ans = ss[iter2-a.begin()] - ss[iter1-a.begin()-1];// - (0 - scommon[iter1-a.begin()-1]);
+			}
 
 //			if (iter1->first != l) {
 //				iter1--;
@@ -180,12 +202,12 @@ int main() {
 				ans += count*(count+1)/2;
 				iti iter3 = iter2;
 				iter3--;
-				if (iter2->first <= iter3->second) {
+				if (iter2 != a.begin() && iter2->first <= iter3->second) {
 					count = iter3->second-iter2->first+1;
 					ans -= count*(count+1)/2;
 				}
 			}
-			write(ans);
+			printf("%lld\n",ans);
 		}
 	}
 	return 0;
