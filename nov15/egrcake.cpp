@@ -51,7 +51,7 @@ int main() {
 		else if (m == 0 && n==1) {printf("Yes\n");continue;}
 		int ans = gcd(n,m);
 		if (ans == 1) printf("Yes\n");
-		else printf("No %d\n", ans);
+		else printf("No %d\n", n/ans);
 	}
 	return 0;
 }

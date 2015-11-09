@@ -5,7 +5,7 @@ int main() {
 	int n=100;
 	for (int i=1;i<=n;i++) {
 		for (int j=0;j<i;j++) {
-			//cout<<i<<" "<<j<<endl;
+			//cout<<"("<<i<<" "<<j<<") ";
 			vector<int> a(i);
 			iota(a.begin(),a.end(),1);
 			a.erase(a.begin(),a.begin()+j);
@@ -23,7 +23,7 @@ int main() {
 				count++;
 			}
 			if (count == i) cout<<"Yes\n";
-			else cout<<"No\n";//<<count<<endl;
+			else cout<<"No "<<count<<endl;
 		}
 	}
 }
