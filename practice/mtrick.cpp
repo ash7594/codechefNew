@@ -11,10 +11,10 @@
 using namespace std;
 using namespace __gnu_cxx;
 
-long long read() {
+unsigned long long read() {
       char c = gc();
         while(c<'0' || c>'9') c = gc();
-          long long ret = 0;
+          unsigned long long ret = 0;
           while(c>='0' && c<='9') {
                   ret = 10 * ret + c - 48;
                       c = gc();
@@ -22,7 +22,7 @@ long long read() {
             return ret;
 }
 
-inline void write(long long x){
+inline void write(unsigned long long x){
 
          register char buffor[35];
          register int i=0;
@@ -35,9 +35,9 @@ inline void write(long long x){
             //pc('\n');
        }
 
-long long mul(long long k, long long b, long long c) {
+unsigned long long mul(unsigned long long k, unsigned long long b, unsigned long long c) {
 	if (b == 1) return k;
-	long long ans;
+	unsigned long long ans;
 	if (b%2==0) {
 		ans = mul(k,b/2,c);
 	} else return (mul(k,b-1,c)+k)%c;
@@ -46,13 +46,13 @@ long long mul(long long k, long long b, long long c) {
 
 int main() {
 	int t = read();
-	long long a,b,c;
-	long long k,d,ans;
+	unsigned long long a,b,c;
+	unsigned long long k,d,ans;
 	int begin,end;
 	while(t--) {
 		int op = 1;
 		int n = read();
-		vector<long long> ar(n);
+		vector<unsigned long long> ar(n);
 		char s[n];
 		k = 1;
 		d = 0;
