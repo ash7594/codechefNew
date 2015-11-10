@@ -48,7 +48,9 @@ int main() {
 		long long L = (a+(l-1)*d)%9;
 		if (L==0) L=9;
 		long long N = r-l+1;
-		if (d == 3 || d==6) {
+		if (d == 0) {
+			ans = L*N;
+		} else if (d == 3 || d==6) {
 			n = 3;
 			vector<long long> v;
 			long long temp = L;
