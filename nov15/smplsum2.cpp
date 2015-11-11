@@ -2,7 +2,7 @@
 #include<ext/rope>
 #define gc getchar_unlocked
 #define pc putchar_unlocked
-#define REP(a,b,c) for(long long a=b;a<c;a++)
+#define REP(a,b,c) for(unsigned long long a=b;a<c;a++)
 #define maxf(a,b) ((a>b)?a:b)
 #define minf(a,b) ((a<b)?a:b)
 #define minf3(a,b,c) ((minf(a,b)<c)?minf(a,b):c)
@@ -11,14 +11,14 @@
 using namespace std;
 using namespace __gnu_cxx;
 
-vector<long long> factors(10000001,0);
+vector<unsigned long long> factors(10000001,0);
 bitset<10000001> table;
-vector<long long> preval(10000001,0);
+//vector<unsigned long long> preval(10000001,0);
 
-long long read() {
+unsigned long long read() {
       char c = gc();
         while(c<'0' || c>'9') c = gc();
-          long long ret = 0;
+          unsigned long long ret = 0;
           while(c>='0' && c<='9') {
                   ret = 10 * ret + c - 48;
                       c = gc();
@@ -26,7 +26,7 @@ long long read() {
             return ret;
 }
 
-inline void write(long long x){
+inline void write(unsigned long long x){
 
          register char buffor[35];
          register int i=0;
@@ -42,61 +42,73 @@ inline void write(long long x){
 void init() {
 	//table[1][1] = 1;
 	//cout<<"yo";
-	long long N = 10000000;
-	long long n = sqrt(10000000);
-	long long x,sq,i;
+	int N = 10000000;
+	int n = sqrt(10000000);
+	unsigned long long i;
 	for (i=2;i<=n;i++) {
 		if (table[i] != 0) continue;
 		factors[i] = i;
-		preval[i] = i*(i-1)+1;
-		for (long long j=i*i;j<=N;j+=i) {
+		//preval[i] = i*(i-1)+1;
+		for (int j=i*i;j<=N;j+=i) {
 			if (factors[j] == 0) factors[j] = i;
 			table.set(j);
 			//factors[j].push_back(i);
 		}
-		x = preval[i];
-		sq = i*i;
-		for (long long j=i*i;j<=N;j*=i) {
-			//table[j] = 2;
-			preval[j] = sq*x-i+1;
-			x = preval[j];
-		}
+		//x = preval[i];
+//		for (unsigned long long j=i*i;j<=N;j*=i) {
+//			table[j] = 2;
+//			//preval[j] = sq*x-i+1;
+//			//x = preval[j];
+//		}
 	}
 
 	for (;i<=N;i++) {
 		if (table[i] != 0) continue;
 		factors[i] = i;
-		preval[i] = i*(i-1)+1;
+		//preval[i] = i*(i-1)+1;
 	}
+}
+
+unsigned long long lpow(unsigned long long x, unsigned long long y) {
+	unsigned long long temp;
+	if (y==0) return 1;
+	temp = lpow(x,y/2);
+	if (y%2 == 0) return temp*temp;
+	else return x*temp*temp;
 }
 
 int main() {
 	init();
-	long long t = read(),n,ans,a,count;
-	long long inp = 1;
+	unsigned long long t = read(),n;
+	unsigned long long ans,a,count,x;
+	int inp = 1;
 	while(t--) {
 		n = read();
 		
 		if (n == 1) {
 			printf("1\n");
-		} else if (preval[n] != 0) {
+		} else if (table[n] == 0) {
 			//write(preval[n]);
-			printf("%lld\n",preval[n]);
+			printf("%llu\n",n*(n-1)+1);
 //		} else if (table[n] == 2) {
-//			long long f = factors[n][0];
-//			long long x = f*(f-1)+1;
+//			unsigned long long f = factors[n][0];
+//			unsigned long long x = f*(f-1)+1;
 //			write(f*f*x-f+1);
 		} else {
 			ans = 1;
 			while(n>1) {
 				a = factors[n];
-				count = n;
+				count = 0;
 				while(factors[n] == a) {
 					n/=a;
+					count++;
 				}
-				ans *= preval[(count/n)];
+				
+				x = (lpow(a,2*count+1)+1)/(a+1);
+				ans *= x;
 			}
-			printf("%lld\n",ans);
+			printf("%llu\n",ans);
+			//cout<<ans<<endl;
 		}
 	}
 	return 0;
