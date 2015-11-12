@@ -8,6 +8,7 @@
 #define minf3(a,b,c) ((minf(a,b)<c)?minf(a,b):c)
 #define maxf3(a,b,c) ((maxf(a,b)>c)?maxf(a,b):c)
 #define nl cout<<endl
+#define write(a) printf("%lld\n",a)
 using namespace std;
 using namespace __gnu_cxx;
 
@@ -22,7 +23,7 @@ long long read() {
             return ret;
 }
 
-inline void write(long long x){
+inline void write2(long long x){
 
          register char buffor[35];
          register long long i=0;
