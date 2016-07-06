@@ -142,6 +142,7 @@
  	fillprob   = atoi(argv[3]);
  
  	generations = (argc-4)/3;
+	printf("gen: %d, %d\n",argc,generations);
  
  	params = params_set = (generation_params*)malloc( sizeof(generation_params) * generations );
  
